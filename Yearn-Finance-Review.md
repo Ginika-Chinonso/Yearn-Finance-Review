@@ -15,7 +15,7 @@ The base strategy contract is a contract that strategies are to implement. It is
 
 The vault contract is the user interfacing contract, the user cannot interact directly with the strategy contracts. Only authorized people can interact with the strategies contract directly to manage the positions the strategy is handling.
 
-
+![Userflow of a yearn user](./User%20flow.png)
 
 ## IMPLEMENTED INTERFACES
 
@@ -124,13 +124,13 @@ The BaseStrategy contract is meant to be inherited by strategy contracts. Of the
 * **delegatedAssets**: Returns the delegated assets and can be overridden
 
 * **AUTHORIZATION FUNCTIONS**: These are internal modifier function that allows only authorized people call a function. They should not be modified.
-* _onlyAuthorized
-* _onlyEmergencyAuthorized
-* _onlyStrategist
-* _onlyGovernance
-* _onlyRewarder
-* _onlyKeepers
-* _onlyVaultManagers
+    * _onlyAuthorized
+    * _onlyEmergencyAuthorized
+    * _onlyStrategist
+    * _onlyGovernance
+    * _onlyRewarder
+    * _onlyKeepers
+    * _onlyVaultManagers
 
 * **_initialize**: This function is used to initialize the strategy.
 
@@ -258,19 +258,20 @@ other functions include restrictive functions like modifier functions and functi
 
 ## OBSERVATIONS
 
-* Base strategy contract line 565
+* In the Base strategy contract line 565:
 ```
 // with USDC/ETH = 1800, this should give back 1800000000 (180 USDC)
 ```
+
+should be
+
 ```
-should be ETH/USDC = 1800, this should give back 1800000000 (1800 USDC)
+with ETH/USDC = 1800, this should give back 1800000000 (1800 USDC)
 ```
 
-* Recieve function
-A recieve function should be implemented in the base strategy contract. Although it is expected that the strategy contract implements it, it would be much safer if the base strategy contract implements it. This would allow the contract recieve ETH especially if it uses it in its strategy.
+* Recieve function: A recieve function should be implemented in the base strategy contract. Although it is expected that the strategy contract implements it, it would be much safer if the base strategy contract implements it. This would allow the contract recieve ETH especially if it uses it in its strategy.
 
-* Withdraw function
-A withdraw function should be implemented in the base strategy contract. Although it is expected that the strategy contract implements it, it would be much safer if the base strategy contract implements it. This would prevent ETH sent to the contract by mistake to be rescued.
+* Withdraw function: A withdraw function should be implemented in the base strategy contract. Although it is expected that the strategy contract implements it, it would be much safer if the base strategy contract implements it. This would prevent ETH sent to the contract by mistake to be rescued.
 
 
 

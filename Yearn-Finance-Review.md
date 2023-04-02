@@ -20,6 +20,7 @@ The vault contract is the user interfacing contract, the user cannot interact di
 ## IMPLEMENTED INTERFACES
 
 * A strategy implements the StrategyAPI interface to allows the vault to interact with it seamlessly while still enabling it perform its function and maintaining some security standards. A strategy implements the interface below. 
+```
 interface StrategyAPI {
     function name() external view returns (string memory);
     function vault() external view returns (address);
@@ -35,9 +36,10 @@ interface StrategyAPI {
     function harvest() external;
     event Harvested(uint256 profit, uint256 loss, uint256 debtPayment, uint256 debtOutstanding);
 }
-
+```
 
 * The StrategyParams struct is what enables the vault keep track of the strategies under it. The StrategyParams struct consists of the following:
+```
 struct StrategyParams {
     uint256 performanceFee;
     uint256 activation;
@@ -49,9 +51,11 @@ struct StrategyParams {
     uint256 totalGain;
     uint256 totalLoss;
 }
+```
 
 
 * A vault implements the VaultAPI interface which allows it to keep track of the strategies under it and their performance. A vault implements the interface below
+```
 interface VaultAPI is IERC20 {
     function name() external view returns (string calldata);
     function symbol() external view returns (string calldata);
@@ -91,9 +95,11 @@ interface VaultAPI is IERC20 {
     function management() external view returns (address);
     function guardian() external view returns (address);
 }
+```
 
 
 * The health check interface as seen below
+```
 interface HealthCheck {
     function check(
         uint256 profit,
@@ -103,7 +109,7 @@ interface HealthCheck {
         uint256 totalDebt
     ) external view returns (bool);
 }
-
+```
 
 
 
@@ -253,8 +259,12 @@ other functions include restrictive functions like modifier functions and functi
 ## OBSERVATIONS
 
 * Base strategy contract line 565
+```
 // with USDC/ETH = 1800, this should give back 1800000000 (180 USDC)
+```
+```
 should be ETH/USDC = 1800, this should give back 1800000000 (1800 USDC)
+```
 
 * Recieve function
 A recieve function should be implemented in the base strategy contract. Although it is expected that the strategy contract implements it, it would be much safer if the base strategy contract implements it. This would allow the contract recieve ETH especially if it uses it in its strategy.

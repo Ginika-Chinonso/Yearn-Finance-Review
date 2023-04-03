@@ -134,125 +134,74 @@ The BaseStrategy contract is meant to be inherited by strategy contracts. Of the
 
 * **_initialize**: This function is used to initialize the strategy.
 
-* **setHealthCheck**
-
-* **setDoHealthCheck**
-
-* **setStrategist**
-
-* **setKeeper**
-
 * **setRewards**: Used to change the address that recieves the rewards
-
-* **setMaxReportDelay**
-
-* **setMinReportDelay**
-
-* **C**
 
 * **setForceHarvestTriggerOnce**: This function is used to set a trigger to force harvest of yield.
 
 * **setCreditThreshold**: Used to set the credit threshold of a strategy 
 
-* **setBaseFeeOracle**
-
-* **setMetadataURI**
-
-* **governance**
-
-* **isActive**
-
-* **tendTrigger**
-
-* **harvestTrigger**
-
-* **isBaseFeeAcceptable**
-
-* **migrate**
-
-* **withdraw**
-
-* **tend**: implemented but can be overridden
-
-* **harvest**: implemented but can be overridden
-
 * **sweep**: The sweep function is used to rescue tokens that are not used by the strategy but might have been sent to the strategy by mistake. These tokens are sent to the governance address. This helps to prevent total token loss or burn from not being able to be retrieved. The vault share token and strategy want token cannot be swept.
 
 * **setEmergencyExit**: This function sets a strategys emergency exit value to true and revokes the strategy from the vault if the strategy has a debt ratio(ie if money has been assigned to the strategy for yield generation)
 
-
-
-
-
-
-### FUNCTIONS TO BE IMPLEMENTED
-* **name**: Returns the name of the strategy
-
-* **ethToWant**: This function is used to convert the tokens passed in as ETH to the decimal of the want token.
-
-* **estimatedTotalAssets**
-
-* **prepareReturn**
-
-* **adjustPosition**
-
-* **liquidatePosition**
-
-* **liquidateAllPositions**
-
-* **protectedTokens**: The protectedTokens function is used to return an array of token addresses that is  used by the strategy for yield generation. The vault share token and strategy want token should not be included as that has been taken care of already in the sweep function.
-
-* **prepareMigration and migrate**: These functions are used to migrate the want tokens in the strategy contract to the new strategy contract. The prepareMigration function is used to prepare other tokens to be migrated and is expected to be implemented by the inheriting contract.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 * **withdraw**: This function is used to withdraw waant token from a strategy, it can only be called by the vault. This funds is liquidated from positions in action and the leftover reinvested at the next harvest or tend.
-
-* **harvest**: This function is used to harvest a strategy. The strategy reports its status to the vault when this function is called.
-
-* **harvestTrigger**
-
-* **isBaseFeeAcceptable**
 
 * **tend** : This function doesnt take profit when called but adjusts the position of the strategy for better profit
 
 * **tendTrigger**: This function provides a signal to the keeper to call tend function using the estimated gas cost passed in by the keeper to know if calling tend is worth it.
 
+* **harvest**: This function is used to harvest a strategy. The strategy reports its status to the vault when this function is called.
+
+* **setMetadataURI**: This function is used to set the metadata URI of the strategy. The strategys metadata cotains information about the strategy.
+
+* **isActive**: This function is used to know is a strategy is still active or retired.
+
+* **setBaseFeeOracle**: This function is used to set the base fee oracle. This oracle is used to retrieve the base network fee in other to know if it is optimal to call the tend or harvest functions.
+
+* **setStrategist**: This function is used to set the strategist address.
+
+* **setKeeper**: This function is used to set the keeper address.
+
+* **governance**: This function returns the vault governance address.
+
+* **harvestTrigger**: This function signals the keeper to call the harvest function.
+
+* **isBaseFeeAcceptable**: Used to check if the base network fee is okay for the harvest trigger or harvest function to be called.
+
+* **migrate**: This function is used to migrate the want tokens in the strategy contract to the new strategy contract.
+
+* **setMaxReportDelay**: Used to set the maximum blocks that should pass before harvest can be called.
+
+* **setMinReportDelay**: Used to set the minimum blocks that should pass before harvest can be called.
+
+* **setDoHealthCheck**: Used to signal if a health check should be carried out.
+
+* **setHealthCheck**
+
+
+
+
+### FUNCTIONS TO BE IMPLEMENTED
+
+* **name**: Returns the name of the strategy
+
+* **ethToWant**: This function is used to convert the tokens passed in as ETH to the decimal of the want token.
+
+* **protectedTokens**: The protectedTokens function is used to return an array of token addresses that is  used by the strategy for yield generation. The vault share token and strategy want token should not be included as that has been taken care of already in the sweep function.
+
+* **prepareMigration**: The prepareMigration function is used to prepare other tokens to be migrated from the current strategy address to the new strategy address.
+
 * **liquidateAllPositions**: This function is particularly used in the case of an emergency exit. It frees up as much assets as it can for the vault
 
-* liquidatePosition: This is used to make availiable a certain amount of token to the vault contract from the strategy.
+* **liquidatePosition**: This is used to make availiable a certain amount of token to the vault contract from the strategy.
+
+* **estimatedTotalAssets**: This function returns the total assets this strategy is managing which is inclusive of capital and returns.
+
+* **prepareReturn**: This is used to prepare a strategy for harvest in normal conditions. It should minimize loss and maximize profit.
 
 * **adjustPosition**(to be implemented): This function is used to adjust a strategys position based on the amount that has been allocated to the strategy. Any free capital in the strategy can be reinvested.
 
-* prepareReturn: This is used to prepare a strategy for harvest in normal conditions. It should minimize loss and maximize profit.
-
-* isActive: This function is used to know is a strategy is still active or retired.
-
-* estimatedTotalAssets: This function returns the total assets this strategy is managing which is inclusive of capital and returns.
-
-
-* setMetadataURI: This function is used to set the metadata URI of the strategy. The strategys metadata cotains information about the strategy.
-
-* setBaseFeeOracle: This function is used to set the base fee oracle. This oracle is used to retrieve the base network fee in other to know if it is optimal to call the tend or harvest functions.
-
-
-
-
 other functions include restrictive functions like modifier functions and functions to get the associated vaults parameter in the strategy with ease.
-
-
 
 
 
